@@ -1,43 +1,62 @@
 import React from 'react'
 import TableItem from './TableItem'
 
-const Table = ({tabledata, currc}) => {
+const Table = ({tabledata, currc, loading}) => {
     let checker = tabledata instanceof Array;
-
-    if(!checker) {
-        return (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Location</th>
-                        <th>Cases</th>
-                        <th>Recovered</th>
-                        <th>Deaths</th>
-                    </tr>
-                    <tr>
-                        <td>{currc}</td>
-                        <td>{tabledata.confirmed.value}</td>
-                        <td>{tabledata.recovered.value}</td>
-                        <td>{tabledata.deaths.value}</td>
-                    </tr>
-                </tbody>
-            </table>
-        )
+    if(!loading) {
+        return <div>Loading...</div>
     }
-    else{
-        return (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Location</th>
-                        <th>Cases</th>
-                        <th>Recovered</th>
-                        <th>Deaths</th>
-                    </tr>
-                    {tabledata.map(e=><TableItem itemdata={e}/>)}
-                </tbody>
-            </table>
-        )
+    else {
+        //check if undefined
+        if (tabledata !== undefined) {
+            if(!checker) {
+                return (
+                    <section id="table-result">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Total Cases</th>
+                                    <th>Active Cases</th>
+                                    <th>Recovered</th>
+                                    <th>Deaths</th>
+                                </tr>
+                                <tr>
+                                    <td>{currc}</td>
+                                    <td>{tabledata.confirmed.value}</td>
+                                    <td>{tabledata.confirmed.value - tabledata.recovered.value - tabledata.deaths.value}</td>
+                                    <td>{tabledata.recovered.value}</td>
+                                    <td>{tabledata.deaths.value}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    
+                )
+            }
+            else{
+                return (
+                    <section id="table-result">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Total Cases</th>
+                                    <th>Active Cases</th>
+                                    <th>Recovered</th>
+                                    <th>Deaths</th>
+                                </tr>
+                                {tabledata.map((e,index)=><TableItem itemdata={e} key={index}/>)}
+                            </tbody>
+                        </table>
+                    </section>
+                )
+            }
+        }
+        else {
+            return <div>No Data</div>
+        }
+
     }
 }
 

@@ -1,11 +1,14 @@
 import './App.css';
 import {useEffect, useState} from 'react'
-import Filter from './components/Filter/Filter'
-import Table from './components/TableStats/Table'
+
 import {fetchData, fetchCountries, fetchByCountry} from './api'
 
-function App() {
+import Filter from './components/Filter/Filter'
+import Table from './components/TableStats/Table'
+import TotalStats from './components/TotalStats/TotalStats'
 
+function App() {
+  const [totals, setTotals] = useState([]);
   const [tdata, setData] = useState([]);
   const [cdata, setCountries] = useState([]);
   const [currCountry, setCountry] = useState('Philippines');
@@ -14,17 +17,18 @@ function App() {
   //fetching data
   useEffect(()=> {
     const fetchApi = async () => {
-      // const fetchedData = await fetchData();
+      const fetchTotals = await fetchData();
       const fetchedCountries = await fetchCountries();
       const fetchedCountry = await fetchByCountry(currCountry);
 
-      // setData(fetchedData);
+      setTotals(fetchTotals);
       setCountries(fetchedCountries.countries);
       setData(fetchedCountry);
       setLoaded(true);
     }
 
     fetchApi();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   //fetch by country
@@ -40,7 +44,6 @@ function App() {
   const fetchAllCountry = async() => {
     return Promise.all(cdata.map(item => {
       let test = fetchByCountry(item.name);
-      test.name = item.name;
       return test;
     }));
   }
@@ -70,17 +73,14 @@ function App() {
     }
   }
 
-  if(isLoaded) {
     return (
       <div className="App">
         <h1>Covid-19 Statistics</h1>
+        <TotalStats totaldata={totals} loading={isLoaded}/>
         <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry}/>
-        <Table tabledata={tdata} currc={currCountry}/>
+        <Table tabledata={tdata} currc={currCountry} loading={isLoaded}/>
       </div>
     );
-  } else {
-    return <div>Loading...</div>
-  }
 }
 
 export default App;
