@@ -11,25 +11,26 @@ function App() {
   const [totals, setTotals] = useState([]);
   const [tdata, setData] = useState([]);
   const [cdata, setCountries] = useState([]);
-  const [currCountry, setCountry] = useState('Philippines');
+  const [currCountry, setCountry] = useState('General');
 
   //loading states
   const [tblLoad, setTblLoaded] = useState(false);
   const [ttlLoad, setTtlLoaded] = useState(false);
+
+  //pages
+  const [itempage, setItemPage] = useState(0);
+  const maxitems = 0;
 
   //fetching data
   useEffect(()=> {
     const fetchApi = async () => {
       const fetchTotals = await fetchData();
       const fetchedCountries = await fetchCountries();
-      const fetchedCountry = await fetchByCountry(currCountry);
 
       setTotals(fetchTotals);
       setCountries(fetchedCountries.countries);
 
-      setData(fetchedCountry);
-      
-      setTblLoaded(true);
+      getAllData();
       setTtlLoaded(true);
     }
 
@@ -48,7 +49,9 @@ function App() {
 
   //FETCH ALL DATA PER COUNTRY
   const fetchAllCountry = async() => {
-    return Promise.all(cdata.map(item => {
+    const fetchedCountries = await fetchCountries();
+
+    return Promise.all(fetchedCountries.countries.map(item => {
       let test = fetchByCountry(item.name);
       return test;
     }));
@@ -57,14 +60,17 @@ function App() {
   //ADDS NAMES TO FETCHED ALL
   const getAllData = async() => {
     const result = await fetchAllCountry();
-    //adds name
+    const fetchedCountries = await fetchCountries();
+
     result.map((e, index) => {
       if (typeof e !== 'undefined') {
-        e.name = cdata[index].name;
-      } 
-      return console.log(e)})
+        //adds name
+        e.name = fetchedCountries.countries[index].name;
+      }
+      return e; 
+    });
+    
     setData(result);
-
     setTblLoaded(true);
   }
 
@@ -87,21 +93,26 @@ function App() {
     }
   }
   
-
+  //RESET BUTTON FUNCTION
   const showAll = (e) => {
     //reset and set
     setTblLoaded(false);
     setData([]);
 
     getAllData();
+    setCountry('General')
   }
 
     return (
       <div className="App">
-        <h1>Covid-19 Statistics</h1>
-        <TotalStats totaldata={totals} loading={ttlLoad}/>
-        <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry} resetfunc={showAll}/>
-        <Table tabledata={tdata} currc={currCountry} loading={tblLoad}/>
+        <header>
+        <h1><span className="color-r">Covid-19</span> Statistics</h1>
+        </header>
+        <main>
+          <TotalStats totaldata={totals} loading={ttlLoad}/>
+          <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry} resetfunc={showAll}/>
+          <Table tabledata={tdata} currc={currCountry} loading={tblLoad}/>
+        </main>
       </div>
     );
 }

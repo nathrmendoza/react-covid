@@ -1,0 +1,14 @@
+
+#total-stats {width:100%;}
+#total-stats .top {width: 100%; display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px;}
+#total-stats .top svg {font-size: 32px; color: #115E9B; margin-right: 12px;}
+
+#total-stats .container {display: flex; align-items: stretch; justify-content: space-between; margin: 0 -6px 24px; min-height: 102px;}
+#total-stats .container div {width: 25%; padding: 0 6px; opacity: 0; animation: showbox .4s forwards ease-in; position: relative; top: -5px;}
+#total-stats .container div .wrap {width: 100%; padding: 24px; background: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); border-radius: 5px;}
+#total-stats .container div .wrap p{font-weight: 700; font-size: 20px; line-height: 30px;}
+#total-stats .container div .wrap p span {font-weight: 400; display: block; font-size: 18px; line-height: 24px;}
+
+@keyframes showbox {
+    100% {opacity: 1; top: 0;}
+}

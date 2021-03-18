@@ -14,11 +14,11 @@ const Filter = ({filterdata, dofilter, currval, resetfunc}) => {
         <section id="filters">
             <div className="filter-container">
                 
-                <select id="select-country" value={val} onChange={ev=>{dofilter(ev.target.value); setval(ev.target.value)}}>
+                <select id="select-country" value={currval === "General" ? "General" : val} onChange={ev=>{dofilter(ev.target.value); setval(ev.target.value); console.log(currval)}}>
                     <option>General</option>
                     {filterdata.map((e, index) => <option value={e.name} key={index}>{e.name}</option>)}
                 </select>
-                <ResetButton clickFunc={passToApp}/>
+                <ResetButton clickFunc={passToApp} ifgeneral={currval}/>
                 
                 {/* <div className="search-bar">
                     <input type='text' id="searchbar"/>

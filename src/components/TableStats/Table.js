@@ -1,10 +1,17 @@
 import React from 'react'
 import TableItem from './TableItem'
+import Loading from '../Loading'
+import './Table.css';
 
 const Table = ({tabledata, currc, loading}) => {
     let checker = tabledata instanceof Array;
     if(!loading) {
-        return <div>Loading...</div>
+        return (
+            
+            <section id="table-result">
+                <Loading />
+            </section>
+        )
     }
     else {
         //check if undefined

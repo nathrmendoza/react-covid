@@ -12,6 +12,7 @@ export const fetchData = async () => {
 
     } catch (error) {
         console.log("Failed to fetch data: " + error);
+        return
     }
 }
 
@@ -23,6 +24,7 @@ export const fetchCountries = async () => {
 
     } catch (error) {
         console.log("Failed to fetch data: " + error);
+        return
     }
 }
 
@@ -34,5 +36,6 @@ export const fetchByCountry = async (param) => {
 
     } catch (error) {
         console.log("Failed to fetch data: " + error);
+        return
     }
 }

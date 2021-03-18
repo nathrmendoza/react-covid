@@ -1,0 +1,10 @@
+
+#table-result {width: 100%;}
+#table-result table {width: 100%; opacity: 0; animation: showtable .4s forwards ease-in-out; box-shadow: 1px 1px 10px rgba(0,0,0,0.15);}
+#table-result th {font-size: 24px; line-height: 24px; background: #115E9B; color: white; border-top: none;}
+#table-result td, #table-result th {border: 1px solid rgba(0,0,0,0.25); padding: 5px 12px;}
+#table-result tr td:first-child {font-weight: 700;}
+
+@keyframes showtable {
+    100% {opacity: 1;}
+}
