@@ -5,7 +5,7 @@ const TableItem = ({itemdata}) => {
     if (typeof itemdata !== 'undefined') {
         return (
             <tr>
-                <td>Philippines</td>
+                <td>{itemdata.name}</td>
                 <td>{itemdata.confirmed.value}</td>
                 <td>{itemdata.confirmed.value - itemdata.recovered.value - itemdata.deaths.value}</td>
                 <td>{itemdata.recovered.value}</td>

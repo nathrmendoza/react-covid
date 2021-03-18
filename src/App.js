@@ -12,7 +12,10 @@ function App() {
   const [tdata, setData] = useState([]);
   const [cdata, setCountries] = useState([]);
   const [currCountry, setCountry] = useState('Philippines');
-  const [isLoaded, setLoaded] = useState(false);
+
+  //loading states
+  const [tblLoad, setTblLoaded] = useState(false);
+  const [ttlLoad, setTtlLoaded] = useState(false);
 
   //fetching data
   useEffect(()=> {
@@ -24,7 +27,8 @@ function App() {
       setTotals(fetchTotals);
       setCountries(fetchedCountries.countries);
       setData(fetchedCountry);
-      setLoaded(true);
+      setTblLoaded(true);
+      setTtlLoaded(true);
     }
 
     fetchApi();
@@ -33,11 +37,11 @@ function App() {
 
   //fetch by country
   const fetchCountry = async filt => {
-    setLoaded(false)
+    setTblLoaded(false);
     const fetchedCountry = await fetchByCountry(filt);
 
     setData(fetchedCountry);
-    setLoaded(true)
+    setTblLoaded(true)
   }
 
   //fetch all country 
@@ -51,21 +55,28 @@ function App() {
   //filter function
   const executeFilter = (e) => {
     if (e !== 'General') {
-      setLoaded(false)
+      setTblLoaded(false)
       setCountry(e);
       fetchCountry(e);
     }
 
-    //if general fetch all
+    //if GENERAL fetch all
     else {
       //reset and set
-      setLoaded(false);
+      setTblLoaded(false);
       setData([]);
 
       const getAllData = async() => {
-        const result = await fetchAllCountry()
+        const result = await fetchAllCountry();
+        //adds name
+        result.map((e, index) => {
+          if (typeof e !== 'undefined') {
+            e.name = cdata[index].name;
+          } 
+          return console.log(e)})
         setData(result);
-        setLoaded(true);
+
+        setTblLoaded(true);
       }
 
       getAllData();
@@ -76,9 +87,9 @@ function App() {
     return (
       <div className="App">
         <h1>Covid-19 Statistics</h1>
-        <TotalStats totaldata={totals} loading={isLoaded}/>
+        <TotalStats totaldata={totals} loading={ttlLoad}/>
         <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry}/>
-        <Table tabledata={tdata} currc={currCountry} loading={isLoaded}/>
+        <Table tabledata={tdata} currc={currCountry} loading={tblLoad}/>
       </div>
     );
 }
