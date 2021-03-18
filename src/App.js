@@ -26,7 +26,9 @@ function App() {
 
       setTotals(fetchTotals);
       setCountries(fetchedCountries.countries);
+
       setData(fetchedCountry);
+      
       setTblLoaded(true);
       setTtlLoaded(true);
     }
@@ -35,7 +37,7 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  //fetch by country
+  //FETCH BY SPECIFIC COUNTRY
   const fetchCountry = async filt => {
     setTblLoaded(false);
     const fetchedCountry = await fetchByCountry(filt);
@@ -44,7 +46,7 @@ function App() {
     setTblLoaded(true)
   }
 
-  //fetch all country 
+  //FETCH ALL DATA PER COUNTRY
   const fetchAllCountry = async() => {
     return Promise.all(cdata.map(item => {
       let test = fetchByCountry(item.name);
@@ -52,7 +54,22 @@ function App() {
     }));
   }
 
-  //filter function
+  //ADDS NAMES TO FETCHED ALL
+  const getAllData = async() => {
+    const result = await fetchAllCountry();
+    //adds name
+    result.map((e, index) => {
+      if (typeof e !== 'undefined') {
+        e.name = cdata[index].name;
+      } 
+      return console.log(e)})
+    setData(result);
+
+    setTblLoaded(true);
+  }
+
+
+  //FILTER FUNCTION
   const executeFilter = (e) => {
     if (e !== 'General') {
       setTblLoaded(false)
@@ -66,29 +83,24 @@ function App() {
       setTblLoaded(false);
       setData([]);
 
-      const getAllData = async() => {
-        const result = await fetchAllCountry();
-        //adds name
-        result.map((e, index) => {
-          if (typeof e !== 'undefined') {
-            e.name = cdata[index].name;
-          } 
-          return console.log(e)})
-        setData(result);
-
-        setTblLoaded(true);
-      }
-
       getAllData();
-      console.log(tdata);
     }
+  }
+  
+
+  const showAll = (e) => {
+    //reset and set
+    setTblLoaded(false);
+    setData([]);
+
+    getAllData();
   }
 
     return (
       <div className="App">
         <h1>Covid-19 Statistics</h1>
         <TotalStats totaldata={totals} loading={ttlLoad}/>
-        <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry}/>
+        <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry} resetfunc={showAll}/>
         <Table tabledata={tdata} currc={currCountry} loading={tblLoad}/>
       </div>
     );

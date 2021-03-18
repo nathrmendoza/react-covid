@@ -9,6 +9,7 @@ const TotalStats = ({totaldata, loading}) => {
     else {
         return (
             <section id="total-stats">
+                <h2>Worldwide Statistics</h2>
                 <div className="container">
                     <div id="t-confirmed">
                         <span className="value">{totaldata.confirmed.value}</span>
