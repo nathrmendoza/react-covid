@@ -15,7 +15,7 @@ const Filter = ({filterdata, dofilter, currval, resetfunc}) => {
             <div className="filter-container">
                 
                 <select id="select-country" value={currval === "General" ? "General" : val} onChange={ev=>{dofilter(ev.target.value); setval(ev.target.value); console.log(currval)}}>
-                    <option>General</option>
+                    <option value="General">General</option>
                     {filterdata.map((e, index) => <option value={e.name} key={index}>{e.name}</option>)}
                 </select>
                 <ResetButton clickFunc={passToApp} ifgeneral={currval}/>

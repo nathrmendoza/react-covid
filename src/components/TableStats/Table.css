@@ -5,6 +5,9 @@
 #table-result td, #table-result th {border: 1px solid rgba(0,0,0,0.25); padding: 5px 12px;}
 #table-result tr td:first-child {font-weight: 700;}
 
+#pagination {position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);}
+#pagination li {display: inline-block; padding: 5px 0; text-align: center; width: 26px; margin: 0 5px; border: 1px solid black; font-size: 14px; line-height: 14px; cursor: pointer;}
+
 @keyframes showtable {
     100% {opacity: 1;}
 }

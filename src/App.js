@@ -18,8 +18,12 @@ function App() {
   const [ttlLoad, setTtlLoaded] = useState(false);
 
   //pages
-  const [itempage, setItemPage] = useState(0);
-  const maxitems = 0;
+  const [currentPage, setCurrentPage] = useState(1);
+  const maxItems = 15;
+  const [indexLastItem, setLastItemIndex] = useState(currentPage * maxItems);
+  const [indexFirstItem, setFirstItemIndex] = useState(indexLastItem - maxItems);
+  const [pageNumbers,setPagenumbers] = useState([]);
+
 
   //fetching data
   useEffect(()=> {
@@ -62,6 +66,7 @@ function App() {
     const result = await fetchAllCountry();
     const fetchedCountries = await fetchCountries();
 
+    //ADDS NAME TO FETCHED DATA
     result.map((e, index) => {
       if (typeof e !== 'undefined') {
         //adds name
@@ -69,17 +74,61 @@ function App() {
       }
       return e; 
     });
+
+    //PAGINATION LOGIC DIVDE
+    const paginatedTodos = result.slice(indexFirstItem, indexLastItem);
+
+    //PAGE NUMBERS
+    let temppagenum = pageNumbers;
+    for (let i = 0; i < Math.ceil(result.length / maxItems); i++) {
+      temppagenum.push({value : i+1, state : false})
+    }
+    setPagenumbers(temppagenum);
     
-    setData(result);
+    setData(paginatedTodos);
     setTblLoaded(true);
+  }
+
+  //EXECUTE PAGINATE
+  const executePaginate = async(e) => {
+    
+    let temppagenum = pageNumbers;
+    temppagenum.map(n=>{
+      if (n.value === e.target.id) {
+        n.state = true;
+      }
+    });
+    setPagenumbers(temppagenum);
+
+    e.preventDefault();
+    setCurrentPage(e.target.id);
+
+    const result = await fetchAllCountry();
+    const fetchedCountries = await fetchCountries();
+
+    //ADDS NAME TO FETCHED DATA
+    result.map((e, index) => {
+      if (typeof e !== 'undefined') {
+        //adds name
+        e.name = fetchedCountries.countries[index].name;
+      }
+      return e; 
+    });
+
+    
+    let lastIndex = e.target.id * maxItems;
+    let firstIndex = lastIndex - maxItems;
+
+    const paginatedTodos = result.slice(firstIndex, lastIndex);
+
+    setData(paginatedTodos);
   }
 
 
   //FILTER FUNCTION
   const executeFilter = (e) => {
     if (e !== 'General') {
-      setTblLoaded(false)
-      setCountry(e);
+      setTblLoaded(false);
       fetchCountry(e);
     }
 
@@ -91,6 +140,7 @@ function App() {
 
       getAllData();
     }
+    setCountry(e);
   }
   
   //RESET BUTTON FUNCTION
@@ -111,7 +161,7 @@ function App() {
         <main>
           <TotalStats totaldata={totals} loading={ttlLoad}/>
           <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry} resetfunc={showAll}/>
-          <Table tabledata={tdata} currc={currCountry} loading={tblLoad}/>
+          <Table tabledata={tdata} currc={currCountry} loading={tblLoad} pagenums={pageNumbers} paginate={executePaginate}/>
         </main>
       </div>
     );

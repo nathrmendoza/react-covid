@@ -61,7 +61,7 @@ a,p,label,li,button,td,select{font-size: 16px; line-height: 24px;}
 .color-b{color: #115E9B;}
 
 .App {width: 100%; max-width: 1024px; margin: 0 auto; display: block;}
-header {padding: 24px 56px;}
+header {padding: 12px 56px;}
 header h1 {text-align: center;}
 
 main {padding: 0 56px; width: 100%; display: block;}

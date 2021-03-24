@@ -5,9 +5,10 @@
 
 #total-stats .container {display: flex; align-items: stretch; justify-content: space-between; margin: 0 -6px 24px; min-height: 102px;}
 #total-stats .container div {width: 25%; padding: 0 6px; opacity: 0; animation: showbox .4s forwards ease-in; position: relative; top: -5px;}
-#total-stats .container div .wrap {width: 100%; padding: 24px; background: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); border-radius: 5px;}
-#total-stats .container div .wrap p{font-weight: 700; font-size: 20px; line-height: 30px;}
-#total-stats .container div .wrap p span {font-weight: 400; display: block; font-size: 18px; line-height: 24px;}
+#total-stats .container div .wrap {width: 100%; padding: 32px 24px; background: rgb(18,95,155);
+    background: linear-gradient(0deg, rgba(18,95,155,1) 0%, rgba(102,166,255,1) 100%); box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); border-radius: 5px;}
+#total-stats .container div .wrap p{font-weight: 700; font-size: 20px; line-height: 30px; color: white; text-align: center;}
+#total-stats .container div .wrap p span {font-weight: 400; display: block; font-size: 18px; line-height: 24px; text-align: center;}
 
 @keyframes showbox {
     100% {opacity: 1; top: 0;}
