@@ -6,6 +6,7 @@ import {fetchData, fetchCountries, fetchByCountry} from './api'
 import Filter from './components/Filter/Filter'
 import Table from './components/TableStats/Table'
 import TotalStats from './components/TotalStats/TotalStats'
+import Pagination from './components/TableStats/Pagination'
 
 function App() {
   const [totals, setTotals] = useState([]);
@@ -23,6 +24,7 @@ function App() {
   const [indexLastItem, setLastItemIndex] = useState(currentPage * maxItems);
   const [indexFirstItem, setFirstItemIndex] = useState(indexLastItem - maxItems);
   const [pageNumbers,setPagenumbers] = useState([]);
+  const [pnumload, setPLoad] = useState(false);
 
 
   //fetching data
@@ -76,16 +78,17 @@ function App() {
     });
 
     //PAGINATION LOGIC DIVDE
-    const paginatedTodos = result.slice(indexFirstItem, indexLastItem);
+    // const paginatedTodos = result.slice(indexFirstItem, indexLastItem);
 
-    //PAGE NUMBERS
-    let temppagenum = pageNumbers;
-    for (let i = 0; i < Math.ceil(result.length / maxItems); i++) {
-      temppagenum.push({value : i+1, state : false})
-    }
-    setPagenumbers(temppagenum);
+    // //PAGE NUMBERS
+    // let temppagenum = pageNumbers;
+    // for (let i = 0; i < Math.ceil(result.length / maxItems); i++) {
+    //   temppagenum.push({value : i+1, state : false})
+    // }
+    // setPagenumbers(temppagenum);
+    // setPLoad(true);
     
-    setData(paginatedTodos);
+    setData(result);
     setTblLoaded(true);
   }
 
@@ -145,6 +148,7 @@ function App() {
   
   //RESET BUTTON FUNCTION
   const showAll = (e) => {
+    e.preventDefault();
     //reset and set
     setTblLoaded(false);
     setData([]);
@@ -161,7 +165,8 @@ function App() {
         <main>
           <TotalStats totaldata={totals} loading={ttlLoad}/>
           <Filter filterdata={cdata} dofilter={executeFilter} currval={currCountry} resetfunc={showAll}/>
-          <Table tabledata={tdata} currc={currCountry} loading={tblLoad} pagenums={pageNumbers} paginate={executePaginate}/>
+          <Table tabledata={tdata} currc={currCountry} loading={tblLoad} />
+          {/* <Pagination pagenums={pageNumbers} paginate={executePaginate} loading={pnumload}/> */}
         </main>
       </div>
     );

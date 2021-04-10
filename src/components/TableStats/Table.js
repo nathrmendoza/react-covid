@@ -56,11 +56,6 @@ const Table = ({tabledata, currc, loading, pagenums, paginate}) => {
                                 {tabledata.map((e,index)=><TableItem itemdata={e} key={index}/>)}
                             </tbody>
                         </table>
-                        <ul id="pagination">
-                            {pagenums.map(number => 
-                                <li key={number.value} id={number.value} className={number.state ? "active" : ""} onClick={ev=>{paginate(ev)}}>{number.value}</li>
-                            )}
-                        </ul>
                     </section>
                 )
             }
